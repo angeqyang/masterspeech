@@ -37,7 +37,7 @@
 		
     <script type="text/javascript">
     var myimgobj = document.images["jsbutton"]
-
+	var badwrds = ["um", "uh", "stuff", "thing", "things", "yeah"]
     function changeImage()
     {
       document.images["jsbutton"].src = "microphone112.png";
@@ -48,10 +48,27 @@
       document.images["jsbutton"].src = "trans_mic.png";
       return true;
     }
+	
+	function processData(text, tim)
+	{
+	  var proc = {time:tim, trans:text, words:0, fills:[] }
+	  var spl = text.split(" ");
+	  for( x in spl ){
+		prox.words++;
+		if (badwrds.indexOf( x ) != -1){
+			proc.fills.push( x );
+		}
+	  }
+	  return proc;
+	}
+	
+	function stats( proc )
+	{
+		var st = { time:proc.time, words:proc.words, fills:proc.fills.length, wpm: (proc.words / proc.time) };
+		return st;
+	}
 	</script>
 </center>
-
-<p>We would like to have our widget above this line plese thankszje.</p>
 
 <h3>
 <a id="Contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
