@@ -33,19 +33,26 @@
 
         <h3>
 		
-    <center> <a href="#" onMouseOver="return changeImage()" onMouseOut = "return changeImageBack()"> <img name="jsbutton" src="trans_mic.png" border="0" alt="microphone button"> </a>
+    <center> <a href="#" onMouseOver="return changeImage()" onMouseOut= "return changeImageBack()" onMouseDown="return handleMDown()" onMouseUp="return handleMUp()"> <img name="jsbutton" src="trans_mic.png" border="0" alt="microphone button"> </a>
 		
     <script type="text/javascript">
     var myimgobj = document.images["jsbutton"]
 	var badwrds = ["um", "uh", "stuff", "thing", "things", "yeah"]
+    upImage = new Image();
+    upImage.src = "microphone112.jpg";
+    downImage = new Image();
+    downImage.src = "microphone112.jpg"
+    normalImage = new Image();
+    normalImage.src = "trans_mic.jpg";
+
     function changeImage()
     {
-      document.images["jsbutton"].src = "microphone112.png";
+      document.images["jsbutton"].src = upImage.src;
       return true;
     }
     function changeImageBack()
     {
-      document.images["jsbutton"].src = "trans_mic.png";
+      document.images["jsbutton"].src = normalImage.src;
       return true;
     }
 	
@@ -67,6 +74,16 @@
 		var st = { time:proc.time, words:proc.words, fills:proc.fills.length, wpm: (proc.words / proc.time) };
 		return st;
 	}
+    function handleMDown()
+    {
+     document.images["jsbutton"].src = upImage.src;
+     return true;
+    }
+    function handleMUp()
+    {
+     changeImage();
+     return true;
+    }
 	</script>
 </center>
 
