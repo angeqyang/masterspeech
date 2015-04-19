@@ -14,7 +14,7 @@ function capitalize(s) {
 }
 
 function start_recording(interim_callback, end_callback) {
-    start_time = new Date();
+    var start_time = new Date();
     var recorder;
     navigator.webkitGetUserMedia({"audio": true}, function(stream) {
 	var audioContext = new webkitAudioContext();
@@ -77,9 +77,12 @@ function start_recording(interim_callback, end_callback) {
 	
 	last_words = final_transcript + interim_transcript;
     }
+	recognition.onstart = function(event) {
+		start_time = new Date()
+	}
 
     recognition.onend = function(event) {
-	if (end_callback != undefined) end_callback(linebreak(final_transcript, new Date() - start_time, confidence));
+	if (end_callback != undefined) end_callback(linebreak(final_transcript), new Date() - start_time, confidence);
 	recorder.stop();
 	recorder.exportWAV(function(wav) {
 	    var url = window.webkitURL.createObjectURL(wav);

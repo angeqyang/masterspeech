@@ -40,12 +40,16 @@
         <h3>
 
 	<div id="myModal" class="reveal-modal" data-reveal aria-labelledby="myModal" aria-hidden="true" role="dialog">
-		<h2 id="modalTitle">Awesome. I have it.</h2>
-		<p class="lead">Your couch.  It is mine.</p>
-		<p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+		<h2 id="confmsg">Great job!</h2>
+		<p id="tip" class="lead"></p>
+		<p id="time"></p>
+		<p id="words"></p>
+		<p id="fillers"></p>
+		<p id="wpm"></p>
 		<audio controls>
-		  <br>
-		<a  href="#" class="button" onclick = "closemod()">Close</a>
+		  <br> <br> <br>
+		  </audio>
+		<a  href="#" class="close-reveal-modal" onclick = "closemod()">x</a>
 	</div>
 	
 	<div id="procmodal" class="reveal-modal" data-reveal aria-labelledby="procmodal" aria-hidden="true" role="dialog">
@@ -67,12 +71,14 @@
     {
     
 		if (but.text == "Record" ){
+		console.log("here")
     but.text = "Stop";
         start_recording(function(final_transcript, interim_transcript) {
     console.log(final_transcript + interim_transcript);
     }, revmod);
 
     } else {
+	console.log("there");
     but.text = "Record";
     processing();
         stop_recording();
@@ -87,13 +93,30 @@
     }
 	
     function revmod(final_transcript, time, confidence){
-    $("#procmodal").trigger("reveal:close"); 
-    $("#myModal").foundation('reveal', 'open');
+	console.log("tiny tim:" + time)
+		$("#procmodal").trigger("reveal:close"); 
+		$("#myModal").foundation('reveal', 'open');
+		var st = stats( processData(final_transcript,time));
+		var tip = "You blew us away!"
+		console.log( confidence)
+		if( confidence < .81 )
+			tip = "You were difficult to understand.  Speak clearly and make sure there is no background noise.";
+		else if ( st.wpm > 140 )
+			tip = "Slow down!  Nobody understood you.";
+		else if (st.wpm < 100 )
+			tip = "Your pacing was a little slow.";
+		else if (st.fills > 2 )
+			tip = "Try to use less filler words (such as \""+(st.filllist)[0]+"\").";
+		document.getElementById("tip").innerHTML = tip;
+		//conf message
+		//tip
+		document.getElementById("time").innerHTML = "Time: "+(st.time/1000)+" seconds.";
+		document.getElementById("words").innerHTML = "Words: "+st.words;
+		document.getElementById("fillers").innerHTML = "Filler Words Per Minute: "+st.fills;
+		document.getElementById("wpm").innerHTML = "Words per minute: "+st.wpm;
     }
 	
     function closemod(){
-        console.log("AAAAAAAA");
-        but.text = "Play";
         location.reload();
     }
 
@@ -108,22 +131,26 @@
       return true;
     }
 	
-	function processData(text, tim,o)
+	function processData(text, tim)
 	{
 	  var proc = {time:tim, trans:text, words:0, fills:[] }
 	  var spl = text.split(" ");
-	  for( x in spl ){
-		prox.words++;
-		if (badwrds.indexOf( x ) != -1){
-			proc.fills.push( x );
-		}
-	  }
+	  spl.forEach(function(x) {
+		console.log( x )
+		proc.words++;
+		badwrds.forEach(function(y) {
+			if (x == y)
+				proc.fills.push( x );
+		
+	  })
+	  })
 	  return proc;
 	}
 	
 	function stats( proc )
 	{
-		var st = { time:proc.time, words:proc.words, fills:proc.fills.length, wpm: (proc.words / proc.time) };
+		var st = { time:proc.time, words:proc.words, fills:(proc.fills.length / proc.time * (60000.0)), wpm: (proc.words / proc.time * (60000.0)), filllist:proc.fills };
+		console.log(st.filllist);
 		return st;
 	}
     function handleMDown()
