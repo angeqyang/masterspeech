@@ -20,7 +20,7 @@ function start_recording(interim_callback, end_callback) {
 	var audioContext = new webkitAudioContext();
 	var mediaStreamSource = audioContext.createMediaStreamSource(stream);
 	var prefix = window.location.href.match('https*://.*?\..*?(/.*/)');
-	prefix = prefix === null ? '/' : prefix;
+	prefix = prefix === null ? '/' : prefix[1];
 	recorder = new Recorder(mediaStreamSource, {
 	    workerPath: prefix + "js/lib/recorderjs/recorderWorker.js"
 	});
