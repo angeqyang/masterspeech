@@ -34,7 +34,7 @@
           <h1>Master Speech</h1>
           <p></p>
           <hr>
-          <center><span>An easy, intuitive way to practice your speech or presentation.</span></center>
+          <center><span id = "descript">The easy, intuitive way to practice your speech or presentation.</span></center>
         </div>
 
         <h3>
@@ -67,6 +67,14 @@
 
     var but = document.getElementById("baton")
 	var badwrds = ["um", "uh", "stuff", "thing", "things", "yeah"]
+	var descrips = ["creative","dynamic","intuitive","synergetic","big data","nosql","analytic","cutting-edge","groundbreaking","next generation","multi-platform","html5","web5.0","angular","sleek","professional","powerful","innovative","reactive","data-driven","customer-focused","100% satisfaction","mobile-friendly","mobile-ready","expandable","modern","user-friendly","intelligent","seamless","flexible","connected","adaptive","advanced","scaled","leading","developed","transparent","partnered","integrated","simple","adaptable","aggregate","redefined","multitasking","productive","object-oriented","high definition","virtual reality","hyper-threaded","free to play","semantic","global","hydrodynamic","thin","slim","lightweight","USB3.0","single port","universal","blue","backend","frontend","trending","pivotal","revolutionary","infrastructure-focused","feature-rich","static","one-page","on-demand","relational","educational","innovative"];
+	
+	window.onload = function(){
+		var w1 = descrips[Math.floor(Math.random()*descrips.length)];
+		var w2 = descrips[Math.floor(Math.random()*descrips.length)];
+		document.getElementById("descript").innerHTML = "The "+w1+", "+w2+" way to practice your speech/presentation";
+	}
+	
 	
 	function batonscript()
     {
@@ -93,7 +101,6 @@
     }
 	
     function revmod(final_transcript, time, confidence){
-	console.log("tiny tim:" + time)
 		$("#procmodal").trigger("reveal:close"); 
 		$("#myModal").foundation('reveal', 'open');
 		var st = stats( processData(final_transcript,time));
@@ -168,9 +175,8 @@
 </center>
 
 <h3>
-<a id="Contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
 
-<p>For help and support, please email us <a href="mailto:arealemail@arealemailwebsite.real"> here.</a></p>
+<p><a href="about.html"> About the team </a></p>
       </section>
 
     </div>
