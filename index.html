@@ -110,10 +110,10 @@
 		document.getElementById("tip").innerHTML = tip;
 		//conf message
 		//tip
-		document.getElementById("time").innerHTML = "Time: "+((st.time/1000)%60)+" seconds.";
+		document.getElementById("time").innerHTML = "Time: "+Math.floor((st.time/1000)/60)+" minutes and "+Math.floor((st.time/1000)%60)+" seconds.";
 		document.getElementById("words").innerHTML = "Words: "+st.words;
 		document.getElementById("fillers").innerHTML = "Filler Words Per Minute: "+st.fills;
-		document.getElementById("wpm").innerHTML = "Words per minute: "+st.wpm;
+		document.getElementById("wpm").innerHTML = "Words per minute: "+st.wpm.toFixed(2);
     }
 	
     function closemod(){
