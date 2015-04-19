@@ -17,7 +17,7 @@ function start_recording(interim_callback, end_callback) {
     var start_time = new Date();
     var recorder;
     navigator.webkitGetUserMedia({"audio": true}, function(stream) {
-	var audioContext = new webkitAudioContext();
+	var audioContext = new AudioContext();
 	var mediaStreamSource = audioContext.createMediaStreamSource(stream);
 	var prefix = window.location.href.match('https*://.*?\..*?(/.*/)');
 	prefix = prefix === null ? '/' : prefix[1];
@@ -100,15 +100,24 @@ window.onload = function(){
 function batonscript()
 {
     var but = document.getElementById("baton")
-    if (but.src.endsWith("mic_off.png" )){
+    if (but.src && but.src.endsWith("mic_off.png") || but.innerText === "Record"){
 	console.log("here")
-	but.setAttribute("src", "images/mic_on.gif");
+	if (but.src) {
+	    but.setAttribute("src", "images/mic_on.gif");
+	} else {
+	    but.innerText = "Stop";
+	}
+	
         start_recording(function(final_transcript, interim_transcript) {
 	    console.log(final_transcript + interim_transcript);
 	}, revmod);
 
     } else {
-	but.setAttribute("src", "images/mic_off.png");
+	if (but.src) {
+	    but.setAttribute("src", "images/mic_on.gif");
+	} else {
+	    but.innerText = "Stop";
+	}
 	processing();
         stop_recording();
     }
