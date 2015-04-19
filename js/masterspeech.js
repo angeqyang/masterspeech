@@ -84,7 +84,7 @@ descrips = ["creative","dynamic","intuitive","synergetic","big data","nosql","an
 window.onload = function(){
     var w1 = descrips[Math.floor(Math.random()*descrips.length)];
     var w2 = descrips[Math.floor(Math.random()*descrips.length)];
-    document.getElementById("descript").innerHTML = "The "+w1+", "+w2+" way to practice your speech/presentation";
+    document.getElementById("descript").innerHTML = "The "+w1+", "+w2+" way to practice your speech or presentation";
 }
 
 
@@ -114,20 +114,19 @@ function revmod(final_transcript, time, confidence){
     $("#procmodal").trigger("reveal:close"); 
     $("#myModal").foundation('reveal', 'open');
     var st = stats( processData(final_transcript,time));
-    var tip = "You blew us away!"
+    var tip = "You spoke quite clearly and paced yourself well."
     console.log( confidence)
     if( confidence < .81 )
-	tip = "You were difficult to understand.  Speak clearly and make sure there is no background noise.";
+	tip = "It was difficult for us to understand you. Try speaking up, articulating your words more clearly, and making sure there is no background noise.";
     else if ( st.wpm > 140 )
-	tip = "Slow down!  Nobody understood you.";
+	tip = "Slow down! It's going to be difficult for your audience to keep up with you. See below for how many words per minute you spoke at, as well as what your target range should be.";
     else if (st.wpm < 100 )
-	tip = "Your pacing was a little slow.";
+	tip = "Your pacing was a little slow. You certainly don't want to lose your audience's attention! See below for how many words per minute you spoke at, as well as what your target range should be.";
     else if (st.fills > 2 )
-	tip = "Try to use less filler words (such as \""+(st.filllist)[0]+"\").";
+	tip = "Try to use less filler words -- for example, we have detected that you said \""+(st.filllist)[0]+"\" quite frequently. Listen to the recording of yourself and try to make note of where you stumble with your words.";
     document.getElementById("tip").innerHTML = tip;
-    //conf message
-    //tip
-    document.getElementById("time").innerHTML = "Time: "+(st.time/1000)+" seconds.";
+
+    document.getElementById("time").innerHTML = "Time: "+Math.floor((st.time/1000)/60)+" minutes and "+Math.floor((st.time/1000)%60)+" seconds.";
     document.getElementById("words").innerHTML = "Words: "+st.words;
     document.getElementById("fillers").innerHTML = "Filler Words Per Minute: "+st.fills.toFixed(2);
     document.getElementById("wpm").innerHTML = "Words per minute: "+st.wpm.toFixed(2);
