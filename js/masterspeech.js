@@ -75,6 +75,11 @@ function stop_recording() {
     recognition.stop();
 }
 
+function closemod() {
+    location.reload();
+ }
+
+
 badwrds = ["um", "uh", "stuff", "thing", "things", "yeah"]
 String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
