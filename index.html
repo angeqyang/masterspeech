@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="stylesheets/ie.css">
     <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<script src="js/vendor/modernizr.js"></script>
+
 
   </head>
   <body>
@@ -28,22 +30,60 @@
           <h1>Master Speech</h1>
           <p></p>
           <hr>
-          <span class="credits left" style ="text-align:center">An easy, intuitive way to practice your speech or presentation.</span>
+          <center><span>An easy, intuitive way to practice your speech or presentation.</span></center>
         </div>
 
         <h3>
+
+	<div id="myModal" class="reveal-modal" data-reveal aria-labelledby="myModal" aria-hidden="true" role="dialog">
+		<h2 id="modalTitle">Awesome. I have it.</h2>
+		<p class="lead">Your couch.  It is mine.</p>
+		<p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+		<a  href="#" class="button" onclick = "closemod()">Close</a>
+	</div>
+	
+	<div id="procmodal" class="reveal-modal" data-reveal aria-labelledby="procmodal" aria-hidden="true" role="dialog">
+		<h2 id="modalTitle">Processing...</h2>
+		<p class="lead">Please wait.</p>
+	</div>
+	<br><br>
+	<center> <a  href="#" id="baton" class="button" onclick = "batonscript()">Record</a> </center>
+	
+	<br><br><br><br>
+
 		
-    <center> <a href="#" onMouseOver="return changeImage()" onMouseOut= "return changeImageBack()" onMouseDown="return handleMDown()" onMouseUp="return handleMUp()"> <img name="jsbutton" src="trans_mic.png" border="0" alt="microphone button"> </a>
 		
     <script type="text/javascript">
-    var myimgobj = document.images["jsbutton"]
+    var but = document.getElementById("baton")
 	var badwrds = ["um", "uh", "stuff", "thing", "things", "yeah"]
-    upImage = new Image();
-    upImage.src = "microphone112.jpg";
-    downImage = new Image();
-    downImage.src = "microphone112.jpg"
-    normalImage = new Image();
-    normalImage.src = "trans_mic.jpg";
+	
+	function batonscript()
+	{
+		if (but.text == "Record" ){
+			but.text = "Stop";
+		}
+		else{
+			processing();
+		}
+	}
+	
+	function processing(){
+		$("#procmodal").foundation('reveal', 'open');
+		
+		//stuff happens then revmod
+		revmod();
+	}
+	
+	function revmod(){
+		$("#procmodal").trigger("reveal:close"); 
+		$("#myModal").foundation('reveal', 'open');
+	}
+	
+	function closemod(){
+		console.log("AAAAAAAA");
+		but.text = "Play";
+		location.reload();
+}
 
     function changeImage()
     {
@@ -56,7 +96,7 @@
       return true;
     }
 	
-	function processData(text, tim)
+	function processData(text, tim,o)
 	{
 	  var proc = {time:tim, trans:text, words:0, fills:[] }
 	  var spl = text.split(" ");
@@ -90,11 +130,15 @@
 <h3>
 <a id="Contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
 
-<p>For help and support, please email us at <a href="mailto:arealemail@arealemailwebsite.real"> here.</a></p>
+<p>For help and support, please email us <a href="mailto:arealemail@arealemailwebsite.real"> here.</a></p>
       </section>
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+	<script src="js/vendor/jquery.js"></script>	
+	<script src="js/foundation.min.js"></script>
+    <script>
+	
+  </script>
   </body>
 </html>
