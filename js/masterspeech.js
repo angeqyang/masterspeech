@@ -19,8 +19,10 @@ function start_recording(interim_callback, end_callback) {
     navigator.webkitGetUserMedia({"audio": true}, function(stream) {
 	var audioContext = new webkitAudioContext();
 	var mediaStreamSource = audioContext.createMediaStreamSource(stream);
+	var prefix = window.location.href.match('https*://.*?\..*?(/.*/)');
+	prefix = prefix === null ? '/' : prefix;
 	recorder = new Recorder(mediaStreamSource, {
-	    workerPath: "/js/lib/recorderjs/recorderWorker.js"
+	    workerPath: prefix + "js/lib/recorderjs/recorderWorker.js"
 	});
 	recorder.clear();
 	recorder.record();
