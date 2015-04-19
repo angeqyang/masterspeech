@@ -10,7 +10,6 @@
     <script src="javascripts/respond.js"></script>
     <script src="https://www.java.com/js/deployJava.js"></script>
     <script src="js/masterspeech.js"></script>
-    <script src="js/lib/diff.js"></script>
     <script src="js/lib/recorderjs/recorder.js"></script>
     
     <!--[if lt IE 9]>
@@ -57,7 +56,7 @@
 		<p class="lead">Please wait.</p>
 	</div>
 	<br><br>
-	<center> <a  href="#" class="button" onclick = "batonscript()"><img src="images/mic_off.jpg" id="baton" height="100" width="100"/></a> </center>
+	<center> <a  href="#" class="button" onclick = "batonscript()"><img src="images/mic_off.png" id="baton" height="100" width="100"/></a> </center>
 	
 	<br><br><br><br>
 
@@ -80,7 +79,7 @@
 	
 	function batonscript()
     {
-		if (but.src.endsWith("mic_off.jpg" )){
+		if (but.src.endsWith("mic_off.png" )){
 		console.log("here")
     but.setAttribute("src", "images/mic_on.gif");
         start_recording(function(final_transcript, interim_transcript) {
@@ -88,7 +87,7 @@
     }, revmod);
 
     } else {
-    but.src = "images/mic_off.jpg";
+    but.setAttribute("src", "images/mic_off.png");
     processing();
         stop_recording();
     }
