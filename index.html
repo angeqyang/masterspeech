@@ -40,7 +40,7 @@
         <h3>
 
 	<div id="myModal" class="reveal-modal" data-reveal aria-labelledby="myModal" aria-hidden="true" role="dialog">
-		<h2 id="confmsg">Great job! Here are some things we noticed...</h2>
+		<h2 id="confmsg">Great job!</h2>
 		<p id="tip" class="lead"></p>
 		<p id="time"></p>
 		<p id="words"></p>
@@ -57,29 +57,29 @@
 		<p class="lead">Please wait.</p>
 	</div>
 	<br><br>
-	<center> <a  href="#" id="baton" class="button" onclick = "batonscript()"><img src="images/mic_off.jpg"/></a> </center>
+	<center> <a  href="#" class="button" onclick = "batonscript()"><img src="images/mic_off.jpg" id="baton" height="100" width="100"/></a> </center>
 	
 	<br><br><br><br>
 
 		
 		
     <script type="text/javascript">
-
     var but = document.getElementById("baton")
 	var badwrds = ["um", "uh", "stuff", "thing", "things", "yeah"]
-	
+    String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+    };
 	function batonscript()
     {
-		if (but.text == "Record" ){
+		if (but.src.endsWith("mic_off.jpg" )){
 		console.log("here")
-    but.text = "Stop";
+    but.setAttribute("src", "images/mic_on.gif");
         start_recording(function(final_transcript, interim_transcript) {
     console.log(final_transcript + interim_transcript);
     }, revmod);
 
     } else {
-	console.log("there");
-    but.text = "Record";
+    but.src = "images/mic_off.jpg";
     processing();
         stop_recording();
     }
@@ -97,20 +97,20 @@
 		$("#procmodal").trigger("reveal:close"); 
 		$("#myModal").foundation('reveal', 'open');
 		var st = stats( processData(final_transcript,time));
-		var tip = "Wonderful! You spoke quite clearly and paced yourself well. To fine-tune your speaking skills, keep in mind that an audience best processes speeches at 130-140 wpm, and processes slideshow presentations at 100-125 wpm."
+		var tip = "You blew us away!"
 		console.log( confidence)
 		if( confidence < .81 )
-			tip = "It was difficult for us to understand you. Try articulating your words more clearly, speaking up, and making sure there is no background noise.";
+			tip = "You were difficult to understand.  Speak clearly and make sure there is no background noise.";
 		else if ( st.wpm > 140 )
-			tip = "Slow down! It's going to be difficult for your audience to keep up with you. If you're practicing a speech, keep in mind that an audience best processes a speaker talking at 130-140 wpm. If you're giving a slideshow presentation, you want to aim for 100-125 wpm.";
+			tip = "Slow down!  Nobody understood you.";
 		else if (st.wpm < 100 )
-			tip = "Your pacing was a little slow. You certainly don't want to lose your audience's attention! If you're practicing a speech, keep in mind that an audience best processes a speaker talking at 130-140 wpm. If you're giving a slideshow presentation, you want to aim for 100-125 wpm.";
+			tip = "Your pacing was a little slow.";
 		else if (st.fills > 2 )
-			tip = "Try to use less filler words -- for example, we have detected that you said \""+(st.filllist)[0]+"\" quite frequently. Listen to the recording of yourself and try to make note of where you stumble with your words.";
+			tip = "Try to use less filler words (such as \""+(st.filllist)[0]+"\").";
 		document.getElementById("tip").innerHTML = tip;
 		//conf message
 		//tip
-		document.getElementById("time").innerHTML = "Time: "+((st.time/1000)%60)+" seconds.";
+		document.getElementById("time").innerHTML = "Time: "+(st.time/1000)+" seconds.";
 		document.getElementById("words").innerHTML = "Words: "+st.words;
 		document.getElementById("fillers").innerHTML = "Filler Words Per Minute: "+st.fills;
 		document.getElementById("wpm").innerHTML = "Words per minute: "+st.wpm;
@@ -119,10 +119,18 @@
     function closemod(){
         location.reload();
     }
-	
-	var badwrds = ["um", "uh", "stuff", "thing", "things", "yeah"]
-    var state = 0
 
+    function changeImage()
+    {
+      document.images["jsbutton"].src = upImage.src;
+      return true;
+    }
+    function changeImageBack()
+    {
+      document.images["jsbutton"].src = normalImage.src;
+      return true;
+    }
+	
 	function processData(text, tim)
 	{
 	  var proc = {time:tim, trans:text, words:0, fills:[] }
@@ -145,25 +153,16 @@
 		console.log(st.filllist);
 		return st;
 	}
-  function handleMDown()
-  {
-    // document.images["jsbutton"].src = upImage.src;
-    if (state == 0 ){
-      //change button to stop
-      state = 1;
-      //call alex's stuff
-    } else if (state == 1){
-      //change image to processing
-      //also process alex's stuff
-      state = 2;
-    } else {
-      //change button to "reset" button
-      //either go back to beginning or go through stage three
-      return false;
-    }
+    function handleMDown()
+    {
+     document.images["jsbutton"].src = upImage.src;
      return true;
-  }
-  
+    }
+    function handleMUp()
+    {
+     changeImage();
+     return true;
+    }
 	</script>
 </center>
 
