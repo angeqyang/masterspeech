@@ -21,11 +21,13 @@ function start_recording(interim_callback, end_callback) {
 	var mediaStreamSource = audioContext.createMediaStreamSource(stream);
 	var prefix = window.location.href.match('https*://.*?\..*?(/.*/)');
 	prefix = prefix === null ? '/' : prefix[1];
-	recorder = new Recorder(mediaStreamSource, {
-	    workerPath: prefix + "js/lib/recorderjs/recorderWorker.js"
-	});
-	recorder.clear();
-	recorder.record();
+	if (typeof Recorder !== 'undefined') {
+	    recorder = new Recorder(mediaStreamSource, {
+		workerPath: prefix + "js/lib/recorderjs/recorderWorker.js"
+	    });
+	    recorder.clear();
+	    recorder.record();
+	}
     }, function (error) {});
     
     recognition.continuous = true;
@@ -60,11 +62,13 @@ function start_recording(interim_callback, end_callback) {
 
     recognition.onend = function(event) {
 	if (end_callback != undefined) end_callback(linebreak(final_transcript), new Date() - start_time, confidence);
-	recorder.stop();
-	recorder.exportWAV(function(wav) {
-	    var url = window.webkitURL.createObjectURL(wav);
-	    document.getElementsByTagName("audio")[0].setAttribute("src", url);
-	});
+	if (typeof Recorder !== 'undefined') {    
+	    recorder.stop();
+	    recorder.exportWAV(function(wav) {
+		var url = window.webkitURL.createObjectURL(wav);
+		document.getElementsByTagName("audio")[0].setAttribute("src", url);
+	    });
+	}
 	
     };
     
@@ -77,7 +81,7 @@ function stop_recording() {
 
 function closemod() {
     location.reload();
- }
+}
 
 
 badwrds = ["um", "uh", "stuff", "thing", "things", "yeah"]
@@ -112,12 +116,19 @@ function batonscript()
 }
 
 function processing(){
-    $("#procmodal").foundation('reveal', 'open');
+    if (typeof $ !== 'undefined') {
+	$("#procmodal").foundation('reveal', 'open');
+    }
 }
 
 function revmod(final_transcript, time, confidence){
-    $("#procmodal").trigger("reveal:close"); 
-    $("#myModal").foundation('reveal', 'open');
+    if (typeof $ !== 'undefined') {
+	$("#procmodal").trigger("reveal:close"); 
+	$("#myModal").foundation('reveal', 'open');
+    } else {
+	document.getElementById("myModal").setAttribute("style", "");
+	document.getElementById("myRest").setAttribute("style", "visibility:hidden;height:0");
+    }
     var st = stats( processData(final_transcript,time));
     var tip = "You spoke quite clearly and paced yourself well."
     console.log( confidence)
