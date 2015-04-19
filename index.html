@@ -119,8 +119,8 @@
 		//tip
 		document.getElementById("time").innerHTML = "Time: "+(st.time/1000)+" seconds.";
 		document.getElementById("words").innerHTML = "Words: "+st.words;
-		document.getElementById("fillers").innerHTML = "Filler Words Per Minute: "+st.fills;
-		document.getElementById("wpm").innerHTML = "Words per minute: "+st.wpm;
+		document.getElementById("fillers").innerHTML = "Filler Words Per Minute: "+st.fills.toFixed(2);
+		document.getElementById("wpm").innerHTML = "Words per minute: "+st.wpm.toFixed(2);
     }
 	
     function closemod(){
@@ -175,6 +175,14 @@
 
 <h3>
 
+<br>
+<center>Welcome to Master Speech! Here, you can practice your speaking skills, whether it's for an upcoming speech, a slideshow presentation, or even something as simple as an elevator pitch. </center>
+</h3>
+<p> Instructions </p> 
+<ol>
+<li>Click on the microphone icon to start recording. Try to articulate your words clearly and speak up! Not only does this make it easier for the microphone to pick up your voice, but it also makes good practice for real-life speaking and presenting.</li>
+<li>When you're want to stop recording, simply click on the microphone and we will automatically process what you've said.</li>
+</ol>
 <p><a href="about.html"> About the team </a></p>
       </section>
 
